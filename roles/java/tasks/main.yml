@@ -1,0 +1,21 @@
+---
+- name: Download Java
+  get_url:
+    url: "{{ java_url }}"
+    headers: "Cookie:oraclelicense=accept-securebackup-cookie"
+    dest: "/tmp/java.tar.gz"
+
+- name: Create directory
+  file: "path={{ apps_dir }} state=directory"
+
+- name: Extract archive
+  unarchive:
+    src: "/tmp/java.tar.gz"
+    dest: "{{ apps_dir }}"
+    copy: no
+
+- name: Symlink install directory
+  file:
+    src: "{{ apps_dir }}/{{ java_version }}"
+    dest: "{{ apps_dir }}/java"
+    state: link

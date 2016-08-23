@@ -1,0 +1,42 @@
+apps_dir: "~/apps"
+repos_dir: "~/repos"
+
+tomcat_url: "http://mirror.navercorp.com/apache/tomcat/tomcat-8/v8.5.4/bin/apache-tomcat-8.5.4.tar.gz"
+tomcat_version: "apache-tomcat-8.5.4"
+
+java_url: "http://download.oracle.com/otn-pub/java/jdk/8u101-b13/jdk-8u101-linux-x64.tar.gz"
+java_version: "jdk1.8.0_101"
+
+repo_url: "https://github.com/Byeol/jwp-advanced.git"
+repo_name: "jwp-advanced"
+
+nginx_sites:
+ default:
+     - listen 80
+     - server_name _
+     - root "/usr/share/nginx/html"
+     - index index.html
+ jaewon.xyz_80:
+     - listen 80
+     - server_name jaewon.xyz www.jaewon.xyz
+     - return 301 https://$host$request_uri
+ jaewon.xyz_443:
+     - listen 443 ssl
+     - root "/usr/share/nginx/html"
+     - index index.html index.html
+     - server_name jaewon.xyz www.jaewon.xyz
+     - ssl_certificate "/etc/letsencrypt/live/jaewon.xyz/fullchain.pem"
+     - ssl_certificate_key "/etc/letsencrypt/live/jaewon.xyz/privkey.pem"
+     - location / { proxy_pass http://jwp-app; }
+
+nginx_configs:
+  upstream:
+      - upstream jwp-app { server localhost:8080; server localhost:8090; server localhost:8100; }
+
+letsencrypt_email: byeol@hotmail.co.kr
+letsencrypt_domains:
+ - jaewon.xyz
+ - www.jaewon.xyz
+letsencrypt_webroot_path: /usr/share/nginx/html
+
+mysql_root_password: root

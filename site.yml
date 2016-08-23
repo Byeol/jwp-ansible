@@ -1,0 +1,39 @@
+---
+# This playbook deploys a simple standalone Tomcat 7 server.
+
+- hosts: jwp-adv
+  remote_user: root
+
+  roles:
+    - geerlingguy.git
+    # - geerlingguy.mysql
+    - role: jdauphant.nginx
+      nginx_sites:
+        default:
+            - listen 80
+            - server_name _
+            - root "/usr/share/nginx/html"
+            - index index.html
+    - letsencrypt
+    - jdauphant.nginx
+    - java
+    - tomcat
+    - deploy
+
+    # - java
+    # - tomcat
+    # - deploy
+    # - jdauphant.nginx
+    # - nginx
+    # - geerlingguy.letsencrypt
+    # - letsencrypt
+    # - thefinn93.letsencrypt
+    # - role: thefinn93.letsencrypt
+    #   letsencrypt_webroot_path: /usr/share/nginx/html
+    #   letsencrypt_email: byeol@hotmail.co.kr
+    #   letsencrypt_cert_domains:
+    #   - www.jaewon.xyz
+    #   - jaewon.xyz
+    #   virtualenv_package_name: python-virtualenv
+    # - geerlingguy.mysql
+    # - geerlingguy.git

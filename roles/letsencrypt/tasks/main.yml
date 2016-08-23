@@ -1,0 +1,6 @@
+---
+- name: Download the Certbot
+  get_url: url=https://dl.eff.org/certbot-auto dest=/tmp/certbot-auto mode=a+x
+
+- name: Get the certificates
+  command: /tmp/certbot-auto certonly -m {{ letsencrypt_email }} {% for domain in letsencrypt_domains %} -d {{ domain }} {% endfor %} --agree-tos -q --webroot -w {{ letsencrypt_webroot_path }}

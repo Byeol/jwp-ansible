@@ -1,0 +1,20 @@
+---
+- name: Download Tomcat
+  get_url:
+    url: "{{ tomcat_url }}"
+    dest: "/tmp/tomcat.tar.gz"
+
+- name: Create directory
+  file: "path={{ apps_dir }} state=directory"
+
+- name: Extract archive
+  unarchive:
+    src: "/tmp/tomcat.tar.gz"
+    dest: "{{ apps_dir }}"
+    copy: no
+
+- name: Symlink install directory
+  file:
+    src: "{{ apps_dir }}/{{ tomcat_version }}"
+    dest: "{{ apps_dir }}/tomcat"
+    state: link

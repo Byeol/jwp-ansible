@@ -1,0 +1,11 @@
+---
+- name: Create directory
+  file: "path={{ repos_dir }} state=directory"
+
+- name: Clone repository
+  git:
+    repo: "{{ repo_url }}"
+    dest: "{{ repos_dir }}/{{ repo_name }}"
+
+- name: Launch application
+  script: "files/launch.sh {{ repo_name }}"
